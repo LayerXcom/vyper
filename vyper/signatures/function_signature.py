@@ -174,6 +174,11 @@ class FunctionSignature():
 
         return abi_dict
 
+    def to_method_identifier(self, sigs, custom_units):
+        sig = FunctionSignature.get_full_sig(self.name, self.args, sigs, custom_units)
+        method_id = sha3(bytes(sig, 'utf-8'))[:4]
+        return (sig, method_id.hex())
+
     @classmethod
     def lookup_sig(cls, sigs, method_name, expr_args, stmt_or_expr, context):
         """ Using a list of args, determine the most accurate signature to use from the given context """

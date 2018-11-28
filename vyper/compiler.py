@@ -48,3 +48,6 @@ def mk_full_signature(code, *args, **kwargs):
         if func_name in gas_estimates and func_name != '__init__':
             abi[idx]['gas'] = gas_estimates[func_name]
     return abi
+
+def mk_method_identifiers(code):
+    return parser.mk_method_identifiers(parser.parse(code))

@@ -134,6 +134,19 @@ def mk_full_signature(code):
                 o.append(s.to_abi_dict(global_ctx._custom_units_descriptions))
     return o
 
+def mk_method_identifiers(code):
+    o = []
+    global_ctx = GlobalContext.get_global_context(code)
+
+    for code in global_ctx._defs:
+        sig = FunctionSignature.from_definition(code, sigs=global_ctx._contracts, custom_units=global_ctx._custom_units)
+        if not sig.private:
+            default_sigs = generate_default_arg_sigs(code, global_ctx._contracts, global_ctx._custom_units)
+            for s in default_sigs:
+                o.append(s.to_method_identifier(global_ctx._contracts, global_ctx._custom_units))
+
+    return dict(o)
+
 
 def parse_events(sigs, _events, custom_units=None):
     for event in _events:
